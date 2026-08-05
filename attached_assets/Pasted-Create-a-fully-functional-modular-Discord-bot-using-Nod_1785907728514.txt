@@ -1,0 +1,184 @@
+Create a fully functional, modular Discord bot using **Node.js with discord.js v14** (or Python with discord.py if preferred). The bot should focus on **embed generation, server utilities, and clean interaction tools**, using a scalable structure and only **free, reliable APIs** where needed.
+
+BOT NAME: Mourningstar Embed System
+
+---
+
+## CORE REQUIREMENTS
+
+* Use **slash commands only**
+* Use **clean, modern embeds** for outputs wherever possible
+* Include **error handling** for all commands
+* Use environment variables for configuration
+* Organize commands into modular files
+* Maintain a **dark, minimal, professional aesthetic**
+* Ensure all commands are fast, responsive, and intuitive
+
+---
+
+## PRIMARY COMMANDS
+
+1. /embed
+
+* Purpose:
+
+  * Fully customizable embed generator
+* Inputs:
+
+  * title
+  * description
+  * color (hex or preset)
+  * image (optional)
+  * thumbnail (optional)
+  * footer text (optional)
+* Behavior:
+
+  * Generate and send a polished embed based on user inputs
+* Extra:
+
+  * Allow optional fields to be omitted
+  * Validate color input
+
+2. /format
+
+* Purpose:
+
+  * Provide Discord formatting and ID references
+* Behavior:
+
+  * Display a guide for:
+
+    * User mentions: <@id>
+    * Channel mentions: <#id>
+    * Role mentions: <@&id>
+    * Emoji format: <:name:id>
+    * Timestamps
+    * Code blocks and markdown
+* Output:
+
+  * Clean embed with categorized formatting examples
+
+3. /help
+
+* Purpose:
+
+  * Display all commands and usage
+* Output:
+
+  * Organized embed grouped by category
+
+---
+
+## MEDIA & INFO COMMANDS
+
+4. /avatar
+
+* Inputs:
+
+  * user (optional)
+* Behavior:
+
+  * Display user avatar in high quality embed
+
+5. /servericon
+
+* Behavior:
+
+  * Display current server icon in embed
+
+---
+
+## ROLE MANAGEMENT COMMANDS
+
+6. /reactionrole
+
+* Inputs:
+
+  * message
+  * emoji
+  * role
+* Behavior:
+
+  * Create a reaction role system
+  * When users react, they receive/remove the role
+* Requirements:
+
+  * Store mappings persistently
+
+7. /role
+
+* Subcommands:
+
+  * /role humans → assign role to all human users
+  * /role bots → assign role to all bots
+  * /role in → assign role to users in a specific role or channel
+* Behavior:
+
+  * Efficient batch role assignment
+  * Include permission checks
+
+---
+
+## UTILITY COMMANDS
+
+8. /speak
+
+* Inputs:
+
+  * message
+* Behavior:
+
+  * Bot sends the message independently
+* Safety:
+
+  * Prevent abuse (block @everyone/@here unless admin)
+
+---
+
+## TICKET SYSTEM
+
+9. /ticket
+
+* Subcommands:
+
+  * create → opens a private ticket channel
+  * close → closes the ticket
+  * claim → marks ticket as claimed by a staff member
+* Behavior:
+
+  * Create organized support channels
+  * Restrict access to user + staff roles
+  * Log ticket actions
+
+---
+
+## EXTRA FEATURES
+
+* Reaction handling system
+* Permission checks for moderation/admin commands
+* Logging system for role changes and tickets
+* Cooldowns to prevent spam
+* Optional config file for roles, channels, and settings
+
+---
+
+## TECHNICAL STRUCTURE
+
+Recommended structure:
+/commands
+/events
+/handlers
+/database
+main file (index.js or main.py)
+
+Include:
+
+* Slash command handler
+* Event listeners (interactionCreate, messageReactionAdd)
+* Persistent storage (JSON or SQLite)
+
+---
+
+## FINAL GOAL
+
+The bot should feel like a **clean, powerful server toolkit** with a focus on **embed creation, role management, and structured utilities**. Everything should be intuitive, visually polished, and efficient—designed for servers that want control and aesthetic consistency.
