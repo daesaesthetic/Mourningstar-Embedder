@@ -1,45 +1,55 @@
-# [Project name]
+# Mourningstar Embed System
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A modular Discord bot built with discord.js v14, focused on embed generation, role management, and server utilities.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
-- `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- `cd artifacts/discord-bot && node src/index.js` — run the bot (managed by the "Discord Bot — Mourningstar" workflow)
+- `cd artifacts/discord-bot && node src/deploy-commands.js` — manually re-deploy slash commands (also runs automatically on startup)
 
 ## Stack
 
-- pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- pnpm workspaces, Node.js, discord.js v14
+- Persistent storage: JSON file at `artifacts/discord-bot/data/db.json`
+- No database required
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/discord-bot/src/commands/` — one file per slash command
+- `artifacts/discord-bot/src/events/` — Discord event handlers (ready, interactionCreate, messageReactionAdd/Remove)
+- `artifacts/discord-bot/src/handlers/` — command & event auto-loaders
+- `artifacts/discord-bot/src/lib/embedInteraction.js` — modal + button logic for /embed
+- `artifacts/discord-bot/src/database/db.js` — JSON persistence helpers
+- `artifacts/discord-bot/data/db.json` — runtime data (reaction roles, tickets)
+
+## Commands
+
+| Command | Category | Description |
+|---|---|---|
+| `/embed` | Embeds | Opens a modal editor; ephemeral preview with Send/Edit/Dismiss buttons |
+| `/format` | Embeds | Discord formatting reference (mentions, timestamps, markdown) |
+| `/help` | Info | Full command list |
+| `/avatar [user]` | Media | High-quality avatar display |
+| `/servericon` | Media | Server icon display |
+| `/reactionrole` | Roles | Map emoji → role on any message (persistent) |
+| `/role humans/bots/in` | Roles | Batch role assignment |
+| `/speak` | Utility | Send a message as the bot |
+| `/ticket create/close/claim` | Tickets | Private support ticket channels |
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
-
-## Product
-
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Embed editor uses Discord modals (5-field) + ephemeral message with action buttons so the editor stays visible after sending
+- Reaction roles and ticket state persisted to JSON (no DB dependency)
+- Slash commands auto-deployed on every bot startup via `deploy-commands.js`
+- Staff role name for tickets is configurable via `TICKET_STAFF_ROLE` env var (defaults to "Staff")
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+_Populate as you build._
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
-
-## Pointers
-
-- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+- `DISCORD_GUILD_ID` env var enables guild-scoped (instant) command deployment instead of global (up to 1 hour)
+- `TICKET_STAFF_ROLE` env var sets the staff role name used by `/ticket` (default: "Staff")
+- Reaction role emoji must be accessible to the bot — custom emojis from other servers won't work
+- `/role humans|bots|in` fetches all members; large servers may hit rate limits and take time
