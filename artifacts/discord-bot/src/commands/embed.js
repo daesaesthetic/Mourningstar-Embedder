@@ -62,7 +62,7 @@ function buildModal(data = {}) {
       new ActionRowBuilder().addComponents(
         new TextInputBuilder()
           .setCustomId('embed_color')
-          .setLabel('Color (hex like #5865f2 or: dark, red, blue, purple…)')
+          .setLabel('Color (hex or preset name)')
           .setStyle(TextInputStyle.Short)
           .setMaxLength(32)
           .setRequired(false)
